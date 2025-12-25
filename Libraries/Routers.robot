@@ -1,12 +1,13 @@
 *** Settings ***
 # Import Resource & Libraries
 ## Main Library
-Library             String
-Library             python/Library.py
 Library             RequestsLibrary
 Library             Collections
+Library             String
 Library             Process
 Library             DateTime
+Library             python/Library.py
+
 
 ## Variables config and base keyword
 Resource            Base.robot
