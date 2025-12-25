@@ -44,6 +44,24 @@ Hit API Create Pet
     Set To Dictionary    ${data}    status_code=${response.status_code}
     [Return]    ${data}
 
+Hit API Get Pet By ID
+    [Documentation]    Hit API get pet by id (Swagger Petstore)
+    [Arguments]        ${id}    ${expected_name}
+
+    ${headers}=    Create Dictionary
+    ...    Accept=application/json
+
+    ${response}=    Get Request
+    ...    service_name=petstore
+    ...    service_url=${BASE_URL}
+    ...    uri=${pet_endpoint}/${id}
+    ...    extra_headers=${headers}
+
+    ${data}=    Convert To Dictionary    ${response.json()}
+    Validate Get Pet Response    ${response}    ${expected_name}
+    Set To Dictionary    ${data}    status_code=${response.status_code}
+    [Return]    ${data}
+
 Validate Pet Response
     [Documentation]    Validasi status code dan JSON schema response create pet
     [Arguments]        ${response}    ${expected_status_code}
@@ -82,49 +100,15 @@ Validate Pet Response
     Should Be Equal    ${body['status'].__class__.__name__}    str
 
 
-Validate Data Booked Code in DB mtix_transaction
-    [Documentation]       Data transaction exists in database mtix_transaction
-    [Arguments]           ${transaction_id}
-
-    Query Select Data Transaction Table Transaction     ${transaction_id}
-
-Update Data Payment to Billed
-    [Documentation]       Update table payment to Billed
-    [Arguments]           ${transaction_id}         ${payment}
-
-    Update Data Transaction Database mtix_payment     ${transaction_id}     status      4       ${payment}
-
-Hit API order/inquiry
-    [Documentation]       Hit API order/booking
-    [Arguments]           ${transaction_id}     ${payment}
-    ${headers} =          Create Dictionary        
-    ...    Content-Type=application/json
-    ...    X-DEVICE-UIID=${DEVICE_ID}
-    ...    X-DEVICE-TYPE=android
-    ...    Authorization=${TOKEN}
-
-    ${payload}=    Create Dictionary
-    ...    cinema_id=${CINEMA}
-    ...    edc_id=${payment}
-    ...    transaction_id=${transaction_id}
-    ...    type=ticket
-
-    ${response}           Post Request              service_name=order-services     service_url=${SERVICE_DEV_MTIX}      uri=${path_orderInquiry}   extra_headers=${headers}   payload=${payload}
-    ${data}               Convert To Dictionary     ${response.json()}
-    Set To Dictionary     ${data}                   status_code=${response.status_code}          
-    [Return]              ${data}
-
-Create Bulk Transaction
-    [Documentation]       Bulk Transaction
-    [Arguments]           ${payment}        ${total_ticket}
-    Log to console          Start...
-    FOR     ${i}    IN RANGE     ${total_ticket}
-        Base.Setup Test Environment
-        Hit API order/booking       ${payment}        ${SEAT}
-        Validate Data Payment in DB mtix_payment        ${transaction_id}       ${payment}
-        Update Data Payment to Billed                   ${transaction_id}       ${payment}
-        Hit API order/inquiry                           ${transaction_id}       ${payment}
-        Validate Data Booked Code in DB mtix_transaction        ${transaction_id}
-        Log to console              Transaciton ID -> ${transaction_id}, Booked Code -> ${BOOKED_CODE} ✅ Success Created
-    END
+Verify Pet Created
+    [Documentation]    Validasi status code dan JSON schema response create pet
+    [Arguments]        ${id}    ${expected_name}
+    Hit API Get Pet By ID      ${id}    ${expected_name}
     
+
+Validate Get Pet Response
+    [Documentation]    Validasi status code dan JSON schema response get pet by id
+    [Arguments]    ${response}    ${expected_name}
+    Should Be Equal As Integers    ${response.status_code}    200
+    ${body}=    Convert To Dictionary    ${response.json()}
+    Should Be Equal    ${body['name']}    ${expected_name}

@@ -8,5 +8,6 @@ Create Pet In Store
     [Documentation]            API Automation
     [Tags]                     positive      development     production      functionalTest       QRIS
     ${random_id}=    Generate 4 Digit Id
-    ${result}=    Hit API Create Pet    ${random_id}    Cat1    available
+    Hit API Create Pet    ${random_id}    Cat1    available
+    Verify Pet Created    ${random_id}    Cat1
     # validate data berhasil inserted by endpoint /pet/{id}
