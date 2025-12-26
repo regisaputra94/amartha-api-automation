@@ -23,12 +23,18 @@ Scenario 2 - Create Pet In Store
 
 Scenario 3 - Find Pet by Status
     [Documentation]            API Automation - Automate find pet by status test case. Get pets with status is "available" and verify that response only show pets with correct status.
-    [Tags]                     positive      functionalTest     get
+    [Tags]                     positive      functionalTest     get     byStatus
     ${data}=        Hit API Find Pet By Status      available
     Validate Find Pet By Status Response    ${data}     available
 
 Scenario 4 - Find Pet by Status
     [Documentation]            API Automation - Automate find pet by status test case. Get pets with status is "pending" and verify that response only show pets with correct status.
-    [Tags]                     positive      functionalTest     get
+    [Tags]                     positive      functionalTest     get     byStatus
     ${data}=        Hit API Find Pet By Status      pending
     Validate Find Pet By Status Response    ${data}     pending
+
+Scenario 5 - Find Pet by ID
+    [Documentation]            API Automation - Automate find pet by id test case. Get pet with id is 2 (or other that give http 200 response) and verify that the response is in comply with the contract.
+    [Tags]                     positive      functionalTest     get     byId
+    Hit API Get Pet By ID      2
+    

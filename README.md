@@ -1,3 +1,36 @@
+## ⚙️ Setup
+### 1️⃣ Install Dependencies
+
+Pastikan sudah terinstall:
+- Python 3
+
+Lalu install library Python:
+```bash
+pip install -r requirements.txt
+```
+
+## 🚀 Menjalankan Test
+
+Jalankan semua test:
+```bash
+robot -d Reports Tests/
+```
+
+Atau test tertentu:
+```bash
+robot -d Reports tests/PetAPI.robot
+```
+
+## 📂 Struktur Folder
+```bash
+amartha-api-automation/
+├── Libraries/                 # Berisi file-file config
+├── Services/                  # Services Object Model
+├── Tests/                     # Test cases
+├── Reports/                   # Report hasil test di ignore di git
+└── requirements.txt
+```
+
 Test Cases
 1. Automate add new pet test case. Create 1 pet with name is "Cat1" and verify that pet has been created.
 2. Automate add new pet test case. Create 1 pet with name is "Cat2" and verify that pet has been created.
