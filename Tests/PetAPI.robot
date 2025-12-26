@@ -36,5 +36,5 @@ Scenario 4 - Find Pet by Status
 Scenario 5 - Find Pet by ID
     [Documentation]            API Automation - Automate find pet by id test case. Get pet with id is 2 (or other that give http 200 response) and verify that the response is in comply with the contract.
     [Tags]                     positive      functionalTest     get     byId
-    Hit API Get Pet By ID      2
+    Hit API Get Pet By ID      528061
     
